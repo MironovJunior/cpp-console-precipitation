@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+
+struct PrecipitationData {
+    int day;
+    int month;
+    float amount;
+};
+
+float getTotalPrecipitationByMonth(const std::vector<PrecipitationData>& data, int month) {
+    float totalPrecipitation = 0.0;
+
+    for (const auto& item : data) {
+        if (item.month == month) {
+            totalPrecipitation += item.amount;
+        }
+    }
+
+    return totalPrecipitation;
+}
+
+int main() {
+    std::vector<PrecipitationData> data = { { 1, 1, 1.0 }, { 2, 1, 2.0 }, { 3, 1, 3.0 }, { 1, 2, 4.0 }, { 2, 2, 5.0 } };
+
+    int month;
+    std::cout << "Enter month: ";
+    std::cin >> month;
+
+    float totalPrecipitation = getTotalPrecipitationByMonth(data, month);
+
+    std::cout << "Total precipitation for month " << month << ": " << totalPrecipitation << std::endl;
+
+    return 0;
+}
+
+// Modularity tests
+void testGetTotalPrecipitationByMonth() {
+    std::vector<PrecipitationData> data = { { 1, 1, 1.0 }, { 2, 1, 2.0 }, { 3, 1, 3.0 }, { 1, 2, 4.0 }, { 2, 2, 5.0 } };
+
+    float totalPrecipitation = getTotalPrecipitationByMonth(data, 1);
+    float expectedTotalPrecipitation = 6.0;
+    assert(totalPrecipitation == expectedTotalPrecipitation);
+
+    totalPrecipitation = getTotalPrecipitationByMonth(data, 2);
+    expectedTotalPrecipitation = 9.0;
+    assert(totalPrecipitation == expectedTotalPrecipitation);
+
+    totalPrecipitation = getTotalPrecipitationByMonth(data, 3);
+    expectedTotalPrecipitation = 0.0;
+    assert(totalPrecipitation == expectedTotalPrecipitation);
+}
